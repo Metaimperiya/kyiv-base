@@ -10,7 +10,6 @@ GH_TOKEN = os.getenv("GH_TOKEN")
 bot = telebot.TeleBot(TOKEN, threaded=False)
 app = Flask(__name__)
 
-# Маршрут для вебхука
 @app.route('/api', methods=['POST', 'GET'])
 def webhook():
     if request.method == 'POST':
@@ -19,29 +18,27 @@ def webhook():
             bot.process_new_updates([update])
         except Exception as e:
             print(f"Ошибка вебхука: {e}")
-    return 'Бот активен на /api.', 200
+    return 'Бот активен.', 200
 
 @bot.message_handler(func=lambda m: True)
 def handle_message(message):
     try:
-        # ТУТ ИСПРАВЛЕНО: ищем home.html вместо index.html
-        url = f"https://api.github.com/repos/{REPO}/contents/home.html"
+        # ИСПРАВЛЕНО: теперь ищем index.html
+        url = f"https://api.github.com/repos/{REPO}/contents/index.html"
         headers = {
             "Authorization": f"Bearer {GH_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
         }
         
-        # Получаем текущий код сайта
         res = requests.get(url, headers=headers)
         if res.status_code != 200:
-            bot.reply_to(message, f"❌ Ошибка: файл home.html не найден в корне!")
+            bot.reply_to(message, f"❌ Ошибка: файл index.html не найден (Код {res.status_code})")
             return
 
         data = res.json()
         sha = data['sha']
         content = base64.b64decode(data['content']).decode('utf-8')
 
-        # Данные клиента
         text = message.text.strip()
         time_now = datetime.now().strftime("%H:%M")
         
@@ -53,13 +50,11 @@ def handle_message(message):
             <div class="time">{time_now}</div>
         </div>"""
 
-        # Вставляем карточку в блок feed
         if '<div id="feed">' in content:
             updated_content = content.replace('<div id="feed">', f'<div id="feed">{new_card}')
         else:
             updated_content = content.replace('</body>', f'{new_card}</body>')
 
-        # Сохраняем обратно на GitHub
         payload = {
             "message": f"Добавлен контакт {text}",
             "content": base64.b64encode(updated_content.encode('utf-8')).decode('utf-8'),
@@ -69,9 +64,9 @@ def handle_message(message):
         put_res = requests.put(url, json=payload, headers=headers)
         
         if put_res.status_code in [200, 201]:
-            bot.reply_to(message, f"✅ Контакт {text} добавлен!\nСайт: https://kyiv-base.vercel.app/")
+            bot.reply_to(message, f"✅ Контакт добавлен на сайт!")
         else:
-            bot.reply_to(message, f"❌ Ошибка записи: {put_res.status_code}")
+            bot.reply_to(message, f"❌ Ошибка записи GitHub: {put_res.status_code}")
 
     except Exception as e:
         bot.reply_to(message, f"🔥 Ошибка: {str(e)}")
