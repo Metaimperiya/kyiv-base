@@ -1,1 +1,22 @@
+name: KYIV Bot Run
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Run Bot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python bot.py
