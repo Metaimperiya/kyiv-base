@@ -4,7 +4,7 @@ import base64
 from flask import Flask, request
 
 TOKEN = "8410156942:AAF0Si5lojhItnQREdC2rbW_N-NuWolcwJw"
-GH_TOKEN = "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"
+GH_TOKEN = "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"
 REPO = "Metaimperiya/kyiv-base"
 
 bot = telebot.TeleBot(TOKEN, threaded=False)
