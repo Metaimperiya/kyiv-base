@@ -9,10 +9,7 @@
         body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg-black); color: #fff; margin: 0; padding: 15px; }
         .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px solid #333; margin-bottom: 20px; }
         h1 { font-size: 1.2rem; color: var(--main-green); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        
         #feed { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        
-        /* Стиль карточки клиента */
         .card { 
             background: var(--card-bg); 
             border: 1px solid #333; 
@@ -22,12 +19,9 @@
             position: relative;
             animation: fadeIn 0.5s ease;
         }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .card h3 { margin: 0 0 10px 0; font-size: 1rem; color: #888; }
         .phone { font-size: 1.4rem; font-weight: bold; display: block; margin-bottom: 15px; color: #fff; letter-spacing: 1px; }
-        
         .btn-call { 
             display: block; 
             background: var(--main-green); 
@@ -41,10 +35,7 @@
             transition: 0.2s;
         }
         .btn-call:active { transform: scale(0.98); background: #00cc6d; }
-        
         .time { font-size: 0.7rem; color: #444; position: absolute; top: 15px; right: 15px; }
-        
-        /* Статус обновления */
         .update-bar { font-size: 0.7rem; text-align: center; color: #444; margin-top: 20px; }
     </style>
 </head>
@@ -56,15 +47,11 @@
     </div>
 
     <div id="feed">
-<div class="card"><h3>Новый контакт</h3><span class="phone">https://api.telegram.org/bot8410156942:AAF0Si5lojhItnQREdC2rbW_N-NuWolcwJw/setWebhook?url=https://kyiv-base.vercel.app/api</span><a href="tel:https://api.telegram.org/bot8410156942:AAF0Si5lojhItnQREdC2rbW_N-NuWolcwJw/setWebhook?url=https://kyiv-base.vercel.app/api" class="btn-call">Позвонить</a></div>
-<div class="card"><h3>Тест.</h3><span class="phone">0631112233</span><a href="tel:0631112233" class="btn-call">Позвонить</a></div>
-<div class="card"><h3>Новый контакт</h3><span class="phone">https://api.telegram.org/bot8410156942:AAF0Si5lojhItnQREdC2rbW_N-NuWolcwJw/setWebhook?url=https://kyiv-base.vercel.app/</span><a href="tel:https://api.telegram.org/bot8410156942:AAF0Si5lojhItnQREdC2rbW_N-NuWolcwJw/setWebhook?url=https://kyiv-base.vercel.app/" class="btn-call">Позвонить</a></div>
         </div>
 
     <div class="update-bar">Автообновление каждые 30 сек</div>
 
     <script>
-        // Скрипт перезагрузки, чтобы видеть новые заявки без ручного рефреша
         setTimeout(() => { location.reload(); }, 30000);
     </script>
 </body>
